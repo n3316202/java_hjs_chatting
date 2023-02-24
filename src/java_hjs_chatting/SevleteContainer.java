@@ -1,0 +1,33 @@
+package java_hjs_chatting;
+
+import java.io.DataOutputStream;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class SevleteContainer extends Thread {
+	Socket socket;
+	DataOutputStream out;
+	String name;
+	
+	public SevleteContainer(Socket socket) {
+		try {
+			out = new DataOutputStream(socket.getOutputStream());
+		    name = "["+socket.getInetAddress()+":"+socket.getPort()+"]";
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	@Override
+	public void run() {
+		Scanner scanner = new Scanner(System.in);
+		while(out != null) {
+			try {
+				out.writeUTF(name + scanner.nextLine());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+	}
+}
